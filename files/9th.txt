@@ -29,9 +29,7 @@ int main(int argc, char **argv){
     return 0;
 }
 
-//mpicc deadlock.c -o deadlock
-//mpicc deadlock_avoided.c -o deadlock_avoided
+//mpicc reduce_allreduce_min.c -o reduce_allreduce_min
+//mpirun -np 4 ./reduce_allreduce_min
 
-//mpirun -np 2 ./deadlock
-//mpirun -np 2 ./deadlock_avoided
 
