@@ -1,0 +1,41 @@
+/* deadlock.c */
+#include <mpi.h>
+#include <stdio.h>
+
+int main(int argc, char **argv){
+    MPI_Init(&argc,&argv);
+    int r,s; MPI_Comm_rank(MPI_COMM_WORLD,&r); MPI_Comm_size(MPI_COMM_WORLD,&s);
+    if(s<2){ if(r==0) printf("Need >=2 procs\n"); MPI_Finalize(); return 0; }
+    int msg = 100;
+    if(r==0){
+        MPI_Send(&msg,1,MPI_INT,1,0,MPI_COMM_WORLD);
+        MPI_Recv(&msg,1,MPI_INT,1,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+    } else if(r==1){
+        MPI_Send(&msg,1,MPI_INT,0,0,MPI_COMM_WORLD);
+        MPI_Recv(&msg,1,MPI_INT,0,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+    }
+    printf("proc %d done\n", r);
+    MPI_Finalize();
+    return 0;
+}
+
+/* deadlock_avoided.c */
+#include <mpi.h>
+#include <stdio.h>
+
+int main(int argc, char **argv){
+    MPI_Init(&argc,&argv);
+    int r,s; MPI_Comm_rank(MPI_COMM_WORLD,&r); MPI_Comm_size(MPI_COMM_WORLD,&s);
+    if(s<2){ if(r==0) printf("Need >=2 procs\n"); MPI_Finalize(); return 0; }
+    int msg = 100;
+    if(r==0){
+        MPI_Send(&msg,1,MPI_INT,1,0,MPI_COMM_WORLD);
+        MPI_Recv(&msg,1,MPI_INT,1,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+    } else if(r==1){
+        MPI_Recv(&msg,1,MPI_INT,0,0,MPI_COMM_WORLD,MPI_STATUS_IGNORE);
+        MPI_Send(&msg,1,MPI_INT,0,0,MPI_COMM_WORLD);
+    }
+    printf("proc %d done\n", r);
+    MPI_Finalize();
+    return 0;
+}
