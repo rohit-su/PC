@@ -24,3 +24,6 @@ int main(int argc, char *argv[]) {
     printf("\n");
     return 0;
 }
+
+//gcc -fopenmp omp_fib.c -o omp_fib
+//./omp_fib 10
