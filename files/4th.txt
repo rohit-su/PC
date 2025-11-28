@@ -36,3 +36,8 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
+
+//gcc -fopenmp 4th.c -o 4th -lm
+
+//./4th 100000
+
