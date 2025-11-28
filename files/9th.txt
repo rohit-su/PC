@@ -1,0 +1,30 @@
+/* reduce_allreduce_min.c */
+#include <mpi.h>
+#include <stdio.h>
+
+int main(int argc, char **argv){
+    MPI_Init(&argc,&argv);
+    int r,s; MPI_Comm_rank(MPI_COMM_WORLD,&r); MPI_Comm_size(MPI_COMM_WORLD,&s);
+    int v = r + 1; /* 1..s */
+
+    int sum, prod, mx, mn;
+    MPI_Reduce(&v, &sum, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&v, &prod, 1, MPI_INT, MPI_PROD, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&v, &mx,   1, MPI_INT, MPI_MAX,  0, MPI_COMM_WORLD);
+    MPI_Reduce(&v, &mn,   1, MPI_INT, MPI_MIN,  0, MPI_COMM_WORLD);
+
+    if (r == 0) {
+        printf("Reduce (root): SUM=%d PROD=%d MAX=%d MIN=%d\n", sum, prod, mx, mn);
+    }
+
+    int alls, allp, allx, alln;
+    MPI_Allreduce(&v, &alls, 1, MPI_INT, MPI_SUM, MPI_COMM_WORLD);
+    MPI_Allreduce(&v, &allp, 1, MPI_INT, MPI_PROD, MPI_COMM_WORLD);
+    MPI_Allreduce(&v, &allx, 1, MPI_INT, MPI_MAX, MPI_COMM_WORLD);
+    MPI_Allreduce(&v, &alln, 1, MPI_INT, MPI_MIN, MPI_COMM_WORLD);
+
+    printf("Proc %d: Allreduce: SUM=%d PROD=%d MAX=%d MIN=%d\n", r, alls, allp, allx, alln);
+
+    MPI_Finalize();
+    return 0;
+}
