@@ -16,3 +16,6 @@ int main(int argc, char *argv[]) {
     }
     return 0;
 }
+
+//gcc 2nd.c -o 2nd -fopenmp
+//./2nd 10
