@@ -72,3 +72,6 @@ int main() {
     free(arr_par);
     return 0;
 }
+
+//gcc 1st.c -o 1st -fopenmp
+//./1st
