@@ -28,3 +28,10 @@ int main(int argc, char **argv){
     MPI_Finalize();
     return 0;
 }
+
+//mpicc deadlock.c -o deadlock
+//mpicc deadlock_avoided.c -o deadlock_avoided
+
+//mpirun -np 2 ./deadlock
+//mpirun -np 2 ./deadlock_avoided
+
